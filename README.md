@@ -27,7 +27,7 @@ if [ -f ~/Documents/github/bashScripts/bashrc ]; then
 fi
 ```
 
-3. Set required environment variables in `env`:
+3. Set required environment variables in `.env` a copy of env with your environement variables:
 - `OPENWEATHER_API_KEY`: For weather functions
 - `OPENAI_API_KEY`: For AI features
 - Other custom environment variables
