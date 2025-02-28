@@ -1,9 +1,9 @@
 # This file is sourced by all interactive shells on startup, including some that are not login shells.
 if [ -f ~/.env ]; then
-    source ~/.env
-    source ~/.help
-    source ~/.proxy
-    source ~/.helpers
+    source ./.env
+    source ./.help
+    source ./.proxy
+    source ./.helpers
 fi
 # Function to process the path
 process_path() {
