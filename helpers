@@ -1,0 +1,88 @@
+# Function to print the status of the previous command
+print_status() {
+    if [ $? -eq 0 ]; then
+        echo -e "\033[0;32mOK\033[0m"
+    else
+        echo -e "\033[0;31mFAIL\033[0m"
+        #We make print fail if the previous command fails 
+        return 1
+    fi
+}
+# Function to watch the output of a command every -n seconds 
+# ex watch -n 3 ls -l
+watch(){
+    interval=2
+    if [ "$1" = "-n" ]; then # allow -n {interval} at start 
+    interval=$2
+    shift 2
+    fi
+    clear
+    while true; do
+    printf "%b\n\n" "\033[1;1HEvery $interval s:$*\033[1;75H$(hostname): $(date)"
+    "$@"
+    sleep "$interval" 
+    done
+}
+
+# simple functions to clear the screen, make a directory and extract files
+cls() {
+    clear
+}
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+..() {
+    cd ..
+}
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.gz)   tar -xzvf "$1" ;;
+            *.tar.bz2)  tar -xjvf "$1" ;;
+            *.tar.xz)   tar -xJvf "$1" ;;
+            *.zip)      unzip "$1" ;;
+            *.rar)      unrar x "$1" ;;
+            *.gz)       gunzip "$1" ;;
+            *)          echo "Cannot extract '$1' - unknown file type" ;;
+        esac
+    else
+        echo "'$1' is not a valid file."
+    fi
+}
+grep() {
+    command grep --color=always "$@"
+}
+hereis(){
+    command ls | grep --color=auto "$@"
+}
+hist() {
+    history | grep "$1"
+}
+
+usage() {
+    df -h
+}
+status() {
+    git status
+}
+rm() {
+    # Check if the argument is a directory
+    if [ -d "$1" ]; then
+        # If it's a directory, use rm -rf to remove it recursively
+        command rm -rf "$1"
+    else
+        # Otherwise, just remove the file normally
+        command rm "$1"
+    fi
+}
+
+
+# Sources bashrc and bash_profile to facilitate bash scripts
+src(){
+    echo "sourcing .bash_profile"
+    source ~/.bash_profile
+    echo "sourced .bash_profile"
+    echo "sourcing .bashrc"
+    source ~/.bashrc
+    echo "sourced .bashrc"
+}

@@ -1,0 +1,138 @@
+# Function to show help for custom bash functions
+help() {
+    local command=$1
+    case $command in
+        "watch")
+            echo "Usage: watch [-n seconds] command"
+            echo "Run command periodically, showing output."
+            echo "Options:"
+            echo "  -n seconds    Specify update interval (default: 2)"
+            echo "Example: watch -n 5 ls"
+            ;;
+        "weather")
+            echo "Usage: weather [city]"
+            echo "Show current weather for specified city."
+            echo "Default city: Vancouver"
+            echo "Example: weather London"
+            ;;
+        "proxy"|"noproxy")
+            echo "Usage: proxy|noproxy"
+            echo "Set or unset HTTP/HTTPS proxy variables for current shell session"
+            echo "Example: proxy    # Sets proxy"
+            echo "         noproxy  # Unsets proxy"
+            ;;
+        "proxyhard"|"noproxyhard")
+            echo "Usage: proxyhard|noproxyhard"
+            echo "Permanently set or unset system HTTP/HTTPS proxy variables"
+            echo "Example: proxyhard    # Sets system proxy"
+            echo "         noproxyhard  # Unsets system proxy"
+            ;;
+        "cdg")
+            echo "Usage: cdg <pattern>"
+            echo "Change directory to matching Github project"
+            echo "Example: cdg myproject"
+            ;;
+        "codeg")
+            echo "Usage: codeg <pattern>"
+            echo "Open matching Github project in VS Code"
+            echo "Example: codeg myproject"
+            ;;
+        "extract")
+            echo "Usage: extract <file>"
+            echo "Extract various archive formats"
+            echo "Supported: .tar.gz, .tar.bz2, .tar.xz, .zip, .rar, .gz"
+            echo "Example: extract archive.zip"
+            ;;
+        "pf")
+            echo "Usage: pf <pod-pattern>"
+            echo "Port forward Kubernetes pod matching pattern"
+            echo "Example: pf myapp"
+            ;;
+        "setgcp")
+            echo "Usage: setgcp [project-pattern]"
+            echo "Set GCP project from pattern or list all projects"
+            echo "Example: setgcp myproject"
+            ;;
+        "clone")
+            echo "Usage: clone <repository-url>"
+            echo "Clone git repository to ~/Documents/github/"
+            echo "Example: clone https://github.com/user/repo.git"
+            ;;
+        "addcommitpush")
+            echo "Usage: addcommitpush \"commit message\""
+            echo "Combine git add, commit, and push in one command"
+            echo "Example: addcommitpush \"Update readme\""
+            ;;
+        "mkcd")
+            echo "Usage: mkcd <directory>"
+            echo "Create directory and change into it"
+            echo "Example: mkcd newproject"
+            ;;
+        "hereis")
+            echo "Usage: hereis <pattern>"
+            echo "List files matching pattern in current directory"
+            echo "Example: hereis \"*.js\""
+            ;;
+        "hist")
+            echo "Usage: hist <pattern>"
+            echo "Search command history for pattern"
+            echo "Example: hist git"
+            ;;
+        "usage")
+            echo "Usage: usage"
+            echo "Display disk usage information in human-readable format"
+            echo "Alias for 'df -h'"
+            echo "Example: usage"
+            ;;
+        "ai")
+            echo "Usage: ai [prompt]"
+            echo "Query OpenAI-compatible API with a prompt"
+            echo "If no prompt is provided, enters interactive mode"
+            echo "Requires environment variables:"
+            echo "  OPENAI_API_BASE_URL"
+            echo "  OPENAI_API_KEY"
+            echo "  OPENAI_MODEL_ID"
+            echo "  OPENAI_SYSTEM_PROMPT"
+            echo "Example: ai \"What is bash scripting?\""
+            ;;
+        "cli")
+            echo "Usage: cli [-y|-n] \"<natural language command>\""
+            echo "Translates and executes natural language commands as bash commands"
+            echo ""
+            echo "Options:"
+            echo "  -y    Auto-execute command without confirmation"
+            echo "  -n    Show command but don't execute or prompt"
+            echo ""
+            echo "Examples:"
+            echo "  cli \"list all files in current directory\""
+            echo "  cli -y \"show disk usage\""
+            echo "  cli -n \"find all python files\""
+            echo ""
+            echo "Note: Use -y with caution as commands will execute without confirmation"
+            ;;
+        *)
+            echo "Available commands:"
+            echo "  watch         - Run command periodically"
+            echo "  weather       - Show weather information"
+            echo "  proxy         - Set proxy variables"
+            echo "  noproxy       - Unset proxy variables"
+            echo "  proxyhard     - Set system proxy variables"
+            echo "  noproxyhard   - Unset system proxy variables"
+            echo "  cdg           - Change to Github project directory"
+            echo "  codeg         - Open Github project in VS Code"
+            echo "  extract       - Extract archive files"
+            echo "  pf            - Port forward Kubernetes pod"
+            echo "  setgcp        - Set GCP project"
+            echo "  clone         - Clone git repository"
+            echo "  mkcd          - Create and enter directory"
+            echo "  hereis        - Search files in current directory"
+            echo "  hist          - Search command history"
+            echo "  addcommitpush - Git add, commit and push"
+            echo "  usage         - Show disk usage information"
+            echo "  cli          - Convert natural language to bash commands"
+
+            echo ""
+            echo "Use 'help <command>' for more information about a specific command"
+            ;;
+    esac
+}

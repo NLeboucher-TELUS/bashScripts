@@ -1,0 +1,83 @@
+# Functions to set the proxy variables hard modify the system variables and soft modify the shell variables
+# Function to print the current weather in Vancouver
+weather() {
+    # OpenWeather
+    CITY="Vancouver"
+    if [ -z "$1" ]; then
+        echo "Defaulting to $CITY."
+    else
+        CITY="$1"
+    fi
+    # Fetch weather data from OpenWeatherMap API
+    RESPONSE=$(curl -s --max-time 5 "https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${OPENWEATHER_API_KEY}&units=metric")
+
+    # Parse the "main" weather condition using jq
+    MAIN_CONDITION=$(echo "$RESPONSE" | jq -r '.weather[0].main')
+
+    # Assign an emoji based on the main condition
+    case $MAIN_CONDITION in
+    "Clear")
+        EMOJI="☀️"
+        ;;
+    "Clouds")
+        EMOJI="☁️"
+        ;;
+    "Rain")
+        EMOJI="🌧️"
+        ;;
+    "Drizzle")
+        EMOJI="🌦️"
+        ;;
+    "Thunderstorm")
+        EMOJI="⛈️"
+        ;;
+    "Snow")
+        EMOJI="❄️"
+        ;;
+    "Mist"|"Fog"|"Haze")
+        EMOJI="🌫️"
+        ;;
+    *)
+        EMOJI="🤷‍♂️" # Default emoji for unknown conditions
+        ;;
+    esac
+
+    # Get additional info like temperature
+    TEMP=$(echo "$RESPONSE" | jq -r '.main.temp')
+    CITY_NAME=$(echo "$RESPONSE" | jq -r '.name')
+    if [ -z "$RESPONSE" ] || [ "$RESPONSE" == "null" ]; then
+        echo "Error: Failed to fetch weather data." >&2
+        return 1
+
+        else
+        echo "Current weather in $CITY_NAME: $MAIN_CONDITION $EMOJI, Temperature: ${TEMP}°C"
+    fi
+
+}
+
+function proxy() {
+   export  HTTP_PROXY=http://198.161.14.25:8080 && export  HTTPS_PROXY=http://198.161.14.25:8080
+   echo "set proxy variables"
+   weather
+   print_status
+}
+function noproxy(){
+    unset HTTP_PROXY && unset HTTPS_PROXY
+    echo "unset proxy variables"
+    weather
+    print_status
+}
+function proxyhard() {
+   setx  HTTP_PROXY http://198.161.14.25:8080
+   setx  HTTPS_PROXY http://198.161.14.25:8080
+   echo "set proxy variables"
+   weather
+   print_status
+}
+function noproxyhard(){
+   setx  HTTP_PROXY ""
+   setx  HTTPS_PROXY ""
+   echo "set proxy variables"
+   weather
+   print_status
+}
