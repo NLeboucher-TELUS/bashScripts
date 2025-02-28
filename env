@@ -1,5 +1,4 @@
 export OPENWEATHER_API_KEY="apikey"
-export PATH="/c/Users/T763027/Documents/Apps/istio-1.24.2/bin:$PATH"
 export OPENAI_API_BASE_URL="https://proxy.fuelix.ai/"
 export OPENAI_API_KEY="apikey"
 export OPENAI_MODEL_ID="claude-3-5-sonnet"
